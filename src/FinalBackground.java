@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventListener;
 
 public class FinalBackground implements ActionListener {
     static String name;
@@ -14,6 +13,8 @@ public class FinalBackground implements ActionListener {
     static String time;
     static String adminFirstName;
     static String adminLastName;
+    static String adminEmail;
+
 
     JPanel middlePanel = new JPanel();
     JPanel topPanel = new JPanel();
@@ -34,20 +35,6 @@ public class FinalBackground implements ActionListener {
     JButton exitBtn = new JButton();
 
     JFrame frame = new JFrame();
-
-    public void finalFrame(int fNumOfItems, float fCusTotal, float fGivenMoney, float fBalance, String fDate, String fTime, String adminFName, String adminLName){
-        numOfItems = fNumOfItems;
-        cusTotal = fCusTotal;
-        givenMoney = fGivenMoney;
-        balance = fBalance;
-        date = fDate;
-        time = fTime;
-        name = "Empty";
-        adminFirstName = adminFName;
-        adminLastName = adminLName;
-
-        new FinalBackground().background();
-    }
 
     public void finalFrame(String fName, int fNumOfItems, float fCusTotal, float fGivenMoney, float fBalance, String fDate, String fTime, String adminFName, String adminLName){
         name = fName;
@@ -150,14 +137,14 @@ public class FinalBackground implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource() == addCustomerBtn){
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addCustomerBtn) {
             frame.dispose();
             BillingBackground billingBackground = new BillingBackground();
-            billingBackground.billingBackgroundInterface(adminFirstName, adminLastName);
+            billingBackground.billingBackgroundInterface(adminFirstName, adminLastName, adminEmail);
         }
 
-        if(e.getSource() == exitBtn){
+        if (e.getSource() == exitBtn) {
             frame.dispose();
         }
     }

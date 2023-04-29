@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Background extends JFrame implements ActionListener {
+public class Background extends JFrame implements ActionListener, AbstractMethods {
     // CREATED OBJECTS
     JLabel mainText = new JLabel();
     JLabel topImage = new JLabel();
@@ -11,10 +11,12 @@ public class Background extends JFrame implements ActionListener {
     JLabel footerUpText = new JLabel();
     JButton loginButton = new JButton();
     JButton createOneButton = new JButton();
+    JButton managerLogin = new JButton();
     ImageIcon image = new ImageIcon("./Images/topImageNew.png");
 
-    // CONSTRUCTOR
-    Background() {
+    // MAIN FUNCTION
+    @Override
+    public void backgroundUI() {
         this.setVisible(true);
         this.setResizable(false);
         this.setSize(1080, 720);
@@ -26,6 +28,7 @@ public class Background extends JFrame implements ActionListener {
         this.add(mainText);
         this.add(loginButton);
         this.add(createOneButton);
+        this.add(managerLogin);
         this.add(footerText);
         this.add(footerUpText);
         this.add(topImage);
@@ -61,6 +64,16 @@ public class Background extends JFrame implements ActionListener {
         createOneButton.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
         createOneButton.addActionListener(this);
 
+        // MANAGER LOGIN BUTTON STYLING
+        managerLogin.setText("Manager Login");
+        managerLogin.setBackground(new Color(55, 202, 236));
+        managerLogin.setForeground(new Color(0, 0, 0));
+        managerLogin.setFont(new Font("Calibri", Font.BOLD, 19));
+        managerLogin.setBounds(390, 450, 290, 40);
+        managerLogin.setFocusable(false);
+        managerLogin.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
+        managerLogin.addActionListener(this);
+
         // FOOTER TEXT FIELD
         footerText.setText("Faculty of Science | University of Kelaniya");
         footerText.setForeground(new Color(100, 100, 100));
@@ -74,17 +87,44 @@ public class Background extends JFrame implements ActionListener {
         footerUpText.setBounds(0, 575, 1080, 100);
         footerUpText.setHorizontalAlignment(JButton.CENTER);
     }
+    @Override
+    public void loginUI(){}
+    @Override
+    public void createOneUI(){}
+    @Override
+    public void billingBackgroundInterface(String FName, String LName, String email){}
 
     // BUTTON ACTIONS
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == loginButton){
-            dispose();
-            new Login();
+            loginButtonClicked();
         }
         if(e.getSource() == createOneButton){
-            dispose();
-            new CreateOne();
+            createOneButtonClicked();
         }
+        if(e.getSource() == managerLogin){
+            managerLoginClicked();
+        }
+    }
+
+    // THIS METHOD EXECUTE WHEN THE LOGIN BUTTON CLICKED
+    void loginButtonClicked(){
+        dispose();
+        Login login = new Login();
+        login.loginUI();
+    }
+
+    // THIS METHOD EXECUTE WHEN THE CREATE ONE BUTTON CLICKED
+    void createOneButtonClicked(){
+        dispose();
+        CreateOne createOne = new CreateOne();
+        createOne.createOneUI();
+    }
+
+    void managerLoginClicked(){
+        dispose();
+        ManagerLogin managerLogin = new ManagerLogin();
+        managerLogin.ManagerLoginUI();
     }
 }

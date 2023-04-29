@@ -19,7 +19,7 @@ public class Items implements dataBaseQuaries{
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,user,dbpassword);
+            Connection connection = DriverManager.getConnection(url,user,dbPassword);
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet resultSet = pst.executeQuery();
 

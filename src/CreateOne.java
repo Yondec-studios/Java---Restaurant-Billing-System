@@ -3,9 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class CreateOne extends JFrame implements ActionListener, MouseListener, dataBaseQuaries{
+public class CreateOne extends JFrame implements ActionListener, MouseListener, dataBaseQuaries, AbstractMethods{
     String FirstName;
     String LastName;
+    String Email;
     // CREATED OBJECTS
     JPanel createOneBackground = new JPanel();
     JPanel dataBackground = new JPanel();
@@ -26,10 +27,10 @@ public class CreateOne extends JFrame implements ActionListener, MouseListener, 
     JPasswordField pwEnter = new JPasswordField();
     JButton createOneBtn = new JButton();
     JButton goBack = new JButton();
-    BillingBackground billingBackground = new BillingBackground();
 
-    // CONSTRUCTOR
-    CreateOne(){
+    // MAIN RUNNING METHOD
+    @Override
+    public void createOneUI(){
         this.setVisible(true);
         this.setResizable(false);
         this.setSize(1080, 720);
@@ -55,6 +56,7 @@ public class CreateOne extends JFrame implements ActionListener, MouseListener, 
         createOneBackground.setBounds(320,60, 400, 550);
         createOneBackground.setBackground(Color.white);
 
+        // OUTER PANEL
         dataBackground.setBounds(350,90, 340, 510);
         dataBackground.setBackground(Color.white);
         dataBackground.setLayout(new GridLayout(14,1, 10,2));
@@ -111,6 +113,7 @@ public class CreateOne extends JFrame implements ActionListener, MouseListener, 
         blank3.setText("");
         blank4.setText("");
 
+        // CREATE ONE BUTTON
         createOneBtn.setText("Create");
         createOneBtn.setFont(new Font("Calibri", Font.BOLD, 17));
         createOneBtn.setBackground(new Color(55, 202, 236));
@@ -130,62 +133,84 @@ public class CreateOne extends JFrame implements ActionListener, MouseListener, 
         btnResize.setLayout(new GridLayout(0,3, 0 ,0));
 
     }
+    @Override
+    public void loginUI(){}
+    @Override
+    public void backgroundUI(){}
+    @Override
+    public void billingBackgroundInterface(String FName, String LName, String email){}
 
     // BUTTON ACTIONS
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == goBack){
             dispose();
-            new Background();
+            Background background = new Background();
+            background.backgroundUI();
         }
         if(e.getSource() == createOneBtn){
+            createOneButtonClicked();
+        }
+    }
 
-            String fNameSave = firstNameEnter.getText();
-            String lNameSave = lastNameEnter.getText();
-            String emailSave = emailEnter.getText();
-            String pwSave = pwEnter.getText();
+    // CREATE ONE BUTTON CLICKED THIS FUNCTION EXECUTE
+    void createOneButtonClicked(){
+        String fNameSave = firstNameEnter.getText();
+        String lNameSave = lastNameEnter.getText();
+        String emailSave = emailEnter.getText();
+        String pwSave = pwEnter.getText();
 
-            String query = "INSERT INTO `admin`(`firstName`, `lastName`, `email`, `password`) VALUES (?, ?, ?, ?)";
+        // DATA BASE QUERY TO INSERT INFORMATION
+        String query = "INSERT INTO `admin`(`firstName`, `lastName`, `email`, `password`) VALUES (?, ?, ?, ?)";
 
-            if(fNameSave.isEmpty() || lNameSave.isEmpty() || emailSave.isEmpty() || pwSave.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Please fill all fields..!", "Filling Error..", JOptionPane.ERROR_MESSAGE);
-                firstNameEnter.setText("");
-                lastNameEnter.setText("");
-                emailEnter.setText("");
-                pwEnter.setText("");
-            }else{
-                try{
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection connection = DriverManager.getConnection(url,user,dbpassword);
-                    PreparedStatement pst = connection.prepareStatement(query);
+        if(fNameSave.isEmpty() || lNameSave.isEmpty() || emailSave.isEmpty() || pwSave.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill all fields..!", "Filling Error..", JOptionPane.ERROR_MESSAGE);
+            firstNameEnter.setText("");
+            lastNameEnter.setText("");
+            emailEnter.setText("");
+            pwEnter.setText("");
+        }else{
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection connection = DriverManager.getConnection(url,user,dbPassword);
+                PreparedStatement pst = connection.prepareStatement(query);
 
-                    FirstName = firstNameEnter.getText();
-                    LastName = lastNameEnter.getText();
-                    pst.setString(1, fNameSave);
-                    pst.setString(2, lNameSave);
-                    pst.setString(3, emailSave);
-                    pst.setString(4, pwSave);
-                    pst.executeUpdate();
-                    JOptionPane.showMessageDialog(this, "Account Creation Success..", "Account creation",JOptionPane.INFORMATION_MESSAGE);
-                    billingBackground.billingBackgroundInterface(FirstName,LastName);
-                    dispose();
-                    connection.close();
+                // DATA SAVING
+                FirstName = firstNameEnter.getText();
+                LastName = lastNameEnter.getText();
+                Email = emailEnter.getText();
+                pst.setString(1, fNameSave);
+                pst.setString(2, lNameSave);
+                pst.setString(3, emailSave);
+                pst.setString(4, pwSave);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Account Creation Success..", "Account creation",JOptionPane.INFORMATION_MESSAGE);
 
-                }catch (Exception e2){
-                    System.out.println(e2);
-                }
+                // CALLING TO METHOD FOR NEXT STEP
+                BillingBackground billingBackground = new BillingBackground();
+                billingBackground.billingBackgroundInterface(FirstName,LastName,Email);
+
+                dispose();
+                connection.close();
+
+            }catch (Exception e2){
+                System.out.println(e2);
             }
         }
-
     }
 
     // MOUSE ACTIONS
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == moveToLogin){
-            dispose();
-            new Login();
+            labelClicked();
         }
+    }
+
+    void labelClicked(){
+        dispose();
+        Login login = new Login();
+        login.loginUI();
     }
 
     @Override

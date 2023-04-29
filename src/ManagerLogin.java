@@ -2,17 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Login extends JFrame implements ActionListener, MouseListener, dataBaseQuaries, AbstractMethods{
+public class ManagerLogin extends JFrame implements ActionListener, dataBaseQuaries{
     String FirstName;
     String LastName;
-    String Email;
     // CREATED OBJECTS
     JPanel loginBackground = new JPanel();
     JPanel dataBackground = new JPanel();
@@ -31,9 +28,7 @@ public class Login extends JFrame implements ActionListener, MouseListener, data
     JButton goBack = new JButton();
     BillingBackground billingBackground = new BillingBackground();
 
-    // MAIN FUNCTION
-    @Override
-    public void loginUI(){
+    void ManagerLoginUI(){
         this.setVisible(true);
         this.setResizable(false);
         this.setSize(1080, 720);
@@ -109,65 +104,29 @@ public class Login extends JFrame implements ActionListener, MouseListener, data
         loginBtn.setBorder(BorderFactory.createEmptyBorder(3,0,0,0));
         loginBtn.addActionListener(this);
 
-        // FOOTER TEXT
-        moveToSignUp.setText("Are you a new user? Create Account");
-        moveToSignUp.setFont(new Font("Calibri", Font.PLAIN, 15));
-        moveToSignUp.setForeground(new Color(55,202,236));
-        moveToSignUp.setHorizontalAlignment(JLabel.CENTER);
-        moveToSignUp.addMouseListener(this);
-
         btnResize.add(blank4);
         btnResize.add(loginBtn);
         btnResize.setBackground(Color.white);
         btnResize.setLayout(new GridLayout(0,3, 0 ,0));
-
     }
-    @Override
-    public void backgroundUI(){}
-    @Override
-    public void createOneUI(){}
-    @Override
-    public void billingBackgroundInterface(String FName, String LName, String Email){}
 
-    // BUTTON ACTIONS
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         if(e.getSource() == goBack){
-            backLabelClicked();
+            Background background = new Background();
+            background.backgroundUI();
         }
 
-        // DATABASE MANAGEMENT
         if(e.getSource() == loginBtn){
             loginButtonClicked();
         }
     }
 
-    void backLabelClicked(){
-        dispose();
-        Background background = new Background();
-        background.backgroundUI();
-    }
-
-    // MOUSE ACTIONS
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if(e.getSource() == moveToSignUp){
-            labelClicked();
-        }
-    }
-
-    void labelClicked(){
-        dispose();
-        CreateOne createOne = new CreateOne();
-        createOne.createOneUI();
-    }
-
-    // WHEN USER CLICKED IN LOGIN BUTTON
     void loginButtonClicked(){
         String getEmail = emailEnter.getText();
         String getPassword = pwEnter.getText();
 
-        String query = "Select * from admin where email='"+getEmail+"' and password = '"+getPassword+"'";
+        String query = "Select * from manager where email='"+getEmail+"' and password = '"+getPassword+"'";
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -179,8 +138,8 @@ public class Login extends JFrame implements ActionListener, MouseListener, data
                 dispose();
                 FirstName = resultSet.getString(1);
                 LastName = resultSet.getString(2);
-                Email = resultSet.getString(3);
-                billingBackground.billingBackgroundInterface(FirstName, LastName, Email);
+                Manager manager = new Manager(FirstName, LastName,resultSet.getString(3));
+                manager.managerServices();
             }
             else{
                 JOptionPane.showMessageDialog(this,"Invalid email or Password !!!", "Login Error !!!",JOptionPane.ERROR_MESSAGE);
@@ -194,23 +153,5 @@ public class Login extends JFrame implements ActionListener, MouseListener, data
         catch (Exception x){
             System.out.println(x);
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        moveToSignUp.setForeground(new Color(18, 84, 136));
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        moveToSignUp.setForeground(new Color(55,202,236));
     }
 }

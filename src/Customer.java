@@ -16,8 +16,9 @@ public class Customer implements dataBaseQuaries{
     float customerTotal;
     float givenMoney;
     float balance;
+    String Email;
 
-    public void saveData(String CustomerName, int totalItemCount, float totalPrice, float cGivenMoney){
+    public void saveData(String CustomerName, int totalItemCount, float totalPrice, float cGivenMoney, String email){
         this.name = CustomerName;
         this.numberOfItems = totalItemCount;
         this.customerTotal = totalPrice;
@@ -25,10 +26,12 @@ public class Customer implements dataBaseQuaries{
         this.date = getDate.format(now);
         this.time = getTime.format(now);
         this.balance = givenMoney - customerTotal;
+        this.Email = email;
 
-        String query = "INSERT INTO `customers`(`customerName`, `numOfItems`, `customerTotal`, `givenMoney`, `balance`, `date`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?)";        try{
+        String query = "INSERT INTO `customers`(`customerName`, `numOfItems`, `customerTotal`, `givenMoney`, `balance`, `date`, `time`, `billedBy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,user,dbpassword);
+            Connection connection = DriverManager.getConnection(url,user,dbPassword);
             PreparedStatement pst = connection.prepareStatement(query);
 
             pst.setString(1, name);
@@ -38,6 +41,7 @@ public class Customer implements dataBaseQuaries{
             pst.setFloat(5, balance);
             pst.setString(6, date);
             pst.setString(7, time);
+            pst.setString(8, Email);
             pst.executeUpdate();
 
         }
@@ -48,12 +52,7 @@ public class Customer implements dataBaseQuaries{
 
     public void moveToFinal(String adminFirstName, String adminLastName){
         FinalBackground finalBackground = new FinalBackground();
-        if(name.isEmpty()){
-            finalBackground.finalFrame(numberOfItems, customerTotal, givenMoney, balance, date, time, adminFirstName, adminLastName);
-        }
-        else{
-            finalBackground.finalFrame(name, numberOfItems, customerTotal, givenMoney, balance, date, time, adminFirstName, adminLastName);
-        }
+        finalBackground.finalFrame(name, numberOfItems, customerTotal, givenMoney, balance, date, time, adminFirstName, adminLastName);
     }
 }
 
