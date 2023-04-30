@@ -142,11 +142,13 @@ public class Manager extends Employee implements ActionListener, MouseListener {
         if(e.getSource() == addItems){
             AddExtraItems addExtraItems = new AddExtraItems();
             addExtraItems.addItemsUI(this.firstName, this.lastName,this.getEmail());
+            frame.dispose();
         }
 
         if(e.getSource() == editPrices){
             EditPrices editPrices = new EditPrices();
             editPrices.editPricesUI(this.firstName, this.lastName, this.getEmail());
+            frame.dispose();
         }
     }
 
