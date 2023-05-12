@@ -1,18 +1,57 @@
-## Getting Started
+## Introduction
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Hello everyone,
+This is a restaurant billing system using Java. This system has mainly three funtianalities.
+- System User Login
+- System User Create Account
+- Manager Login
 
-## Folder Structure
+If the system user is a new user, then he/she have to add their First Name, Last Name, Email, and Password. After that the user will redirect to the billing function. In that case user can add customers add billed items. 
+In Manager Login section, managers can see details about system users, old bills and edit prices, add new items to the system.
 
-The workspace contains two folders by default, where:
+`Special thing is I add GRAPHICAL USER INTERFACE by using Java SWING`
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Also, I used databases for store data. Manager can download details in an Excel file.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Structure
 
-## Dependency Management
+I used 15 classes and 2 interfaces for this system.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+`Classes`
+  - Background
+  - Login
+  - CreateOne
+  - BillingBackground
+  - Items
+  - Customers
+  - FinalBackground
+  - Employee
+  - Manager
+  - SystemUser
+  - CheckBills
+  - EditPrices
+  - AddExtraItems
+  - Main
+
+
+`Interfaces`
+  - dataBaseQuaries
+  - AbstractClasses
+
+
+
+
+> Anyone who need to use code, please you have to add Spire.Xls jar file to the project file. Also, you have to add your database url, username, password  to your code.
+- Create your own database in localhost or any online host
+- Get username, password and database name from it.
+- Go to the dataBaseQuaries Interface.
+- You can see, variable to add those got details.
+- Finaly, you should add your database name and url like this. jdbc:mysql://`host link (Ex - localhost:3306)`/`database name(Ex - sql12601094)`
+
+
+> Best Regards,
+> Yondec Studios
+> Coder: Tharanga Sandun
+
+## THANK YOU
